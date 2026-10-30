@@ -3,15 +3,16 @@
 ## 시작
 
 ```bash
-git status                                  # 저장소가 아니면 git init
+# 0. 이 저장소는 먼저 _rules 폴더로 받는다: git clone --depth 1 https://github.com/AxisZero-X/work-rules _rules
+git rev-parse --git-dir >/dev/null 2>&1 || git init
+printf '.*\n!.gitignore\nnode_modules/\n_rules/\n' >> .git/info/exclude
 git config user.email >/dev/null || git config user.email "me@local"
 git config user.name  >/dev/null || git config user.name "me"
-git add -A && git commit -m "받은 상태 기록"   # 변경이 있을 때만
-git clone --depth 1 https://github.com/AxisZero-X/work-rules _rules
-echo '_rules/' >> .git/info/exclude
-[ -f AGENTS.md ] && cat _rules/AGENTS.md >> AGENTS.md   # 과제 AGENTS.md가 있으면 뒤에 이어 붙임
-cp -n _rules/AGENTS.md _rules/PLAN.md _rules/DECISIONS.md _rules/VERIFICATION.md .
-git add -A && git commit -m "작업 규칙과 문서 양식 추가"
+git add -A && (git commit -m "받은 상태 기록" || true)
+if [ -f AGENTS.md ]; then printf '\n' >> AGENTS.md && cat _rules/AGENTS.md >> AGENTS.md; fi
+cp -n _rules/AGENTS.md _rules/PLAN.md _rules/DECISIONS.md _rules/VERIFICATION.md . || true
+git add -A && (git commit -m "작업 규칙과 문서 양식 추가" || true)
+git status --short
 ```
 
 ## 순서
