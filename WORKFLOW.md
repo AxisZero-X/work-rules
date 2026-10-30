@@ -4,10 +4,12 @@
 
 ```bash
 git status                                  # 저장소가 아니면 git init
+git config user.email >/dev/null || git config user.email "me@local"
+git config user.name  >/dev/null || git config user.name "me"
 git add -A && git commit -m "받은 상태 기록"   # 변경이 있을 때만
 git clone --depth 1 https://github.com/AxisZero-X/work-rules _rules
 echo '_rules/' >> .git/info/exclude
-ls                                          # 같은 이름의 파일이 있으면 덮어쓰지 말고 내용을 합친다
+[ -f AGENTS.md ] && cat _rules/AGENTS.md >> AGENTS.md   # 과제 AGENTS.md가 있으면 뒤에 이어 붙임
 cp -n _rules/AGENTS.md _rules/PLAN.md _rules/DECISIONS.md _rules/VERIFICATION.md .
 git add -A && git commit -m "작업 규칙과 문서 양식 추가"
 ```
